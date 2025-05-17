@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardSpark - Bibliotecă Teme</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class=""> <!-- Clasa 'dark-mode' va fi adăugată de JS -->
+
+    <header class="platform-header">
+        <div class="platform-header-container">
+            <a href="/" class="logo">CardSpark</a>
+            <nav class="platform-nav">
+                <a href="#" class="platform-nav-link active">Bibliotecă Teme</a>
+                <a href="#" class="platform-nav-link">Temele Mele</a>
+                <a href="#" class="platform-nav-link">Creează Temă</a>
+            </nav>
+            <div class="platform-header-actions">
+                <input type="search" placeholder="Caută teme..." class="platform-search-input">
+                <button id="meta-theme-toggle" class="platform-button-icon" aria-label="Comută tema platformei">
+                    <i class="fas fa-sun"></i> <!-- Se va schimba în fa-moon -->
+                </button>
+                <div class="platform-user-menu">
+                    <button class="platform-button-icon" aria-label="Meniu utilizator">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <!-- Dropdown meniu utilizator aici (opțional) -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="platform-main-layout">
+        <aside class="filter-sidebar">
+            <h3 class="filter-sidebar-title">Filtrează Teme</h3>
+            <div class="filter-group">
+                <label for="category-select" class="filter-label">Categorie Stil:</label>
+                <select id="category-select" class="platform-select">
+                    <option value="all">Toate Categoriile</option>
+                    <option value="glow">Glow</option>
+                    <option value="neomorphic">Neomorfic</option>
+                    <option value="glassmorphism">Glassmorphism</option>
+                    <option value="classic">Clasic</option>
+                    <option value="business">Business</option>
+                    <option value="creative">Creativ</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Mod:</label>
+                <div class="platform-radio-group">
+                    <label><input type="radio" name="mode" value="all" checked> Toate</label>
+                    <label><input type="radio" name="mode" value="light"> Light</label>
+                    <label><input type="radio" name="mode" value="dark"> Dark</label>
+                </div>
+            </div>
+             <div class="filter-group">
+                <label class="filter-label">Culoare Accent:</label>
+                <div class="color-palette-filter">
+                    <button class="color-swatch" style="background-color: #007BFF;" data-color="blue" aria-label="Filtrează după albastru"></button>
+                    <button class="color-swatch" style="background-color: #28A745;" data-color="green" aria-label="Filtrează după verde"></button>
+                    <button class="color-swatch" style="background-color: #DC3545;" data-color="red" aria-label="Filtrează după roșu"></button>
+                    <button class="color-swatch" style="background-color: #FFC107;" data-color="yellow" aria-label="Filtrează după galben"></button>
+                    <button class="color-swatch" style="background-color: #6F42C1;" data-color="purple" aria-label="Filtrează după mov"></button>
+                    <button class="color-swatch" style="background-color: #fd7e14;" data-color="orange" aria-label="Filtrează după portocaliu"></button>
+                </div>
+            </div>
+            <button class="platform-button-secondary" style="width: 100%; margin-top: 1.5rem;">Resetează Filtrele</button>
+            <hr class="sidebar-divider">
+            <div class="theme-selector-container">
+                 <label class="filter-label" style="margin-bottom: 0.5rem; display:block; text-align:center;">Previzualizează Cardul cu Tema:</label>
+                <div class="theme-selector">
+                    <button id="theme-dropdown-button" class="theme-dropdown-button" aria-haspopup="true" aria-expanded="false">
+                        <span id="current-theme-name">Selectează Tema</span> <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <ul id="theme-menu" class="theme-menu" role="menu" aria-labelledby="theme-dropdown-button">
+                        </ul>
+                </div>
+            </div>
+        </aside>
+
+        <main class="themes-grid-container">
+            <h2 class="themes-grid-title">Explorează Teme Populare</h2>
+            <div class="card-preview-area">
+                <p class="card-preview-instruction">Selectează o temă din meniul din stânga pentru a previzualiza cardul.</p>
+                <div class="exercise-card-wrapper">
+                    <div class="exercise-card">
+                        <div class="card-header">
+                            <div class="card-icon-wrapper"><i class="fas fa-book-open"></i></div>
+                            <div class="card-tags">
+                                <span class="card-tag tag-theory">Teorie</span>
+                                <span class="card-tag tag-difficulty">Ușor</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="card-title">Semnale Sinusoidale și Reprezentarea Fazorială</h2>
+                            <p class="card-description">
+                                Parametrii semnalelor AC (amplitudine, frecvență, fază, valoare
+                                efectivă) și utilizarea fazorilor.
+                            </p>
+                        </div>
+                        <div class="card-progress-section">
+                            <div class="progress-info">
+                                <span class="progress-details-text">2 / 4 exerciții</span>
+                                <span class="progress-text">50%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stat-item"><i class="fas fa-star"></i><span>20 XP</span></div>
+                            <div class="stat-item"><i class="fas fa-clock"></i><span>12 min</span></div>
+                            <div class="stat-item"><i class="fas fa-list-ul"></i><span>Exerciții</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="themes-actual-grid">
+                <h3 style="grid-column: 1 / -1; color: var(--meta-text-secondary); font-weight: 500; margin-top: 2rem;">Listă Teme (Exemple de Previzualizări Mici)</h3>
+                <div class="theme-preview-item">Card Temă 1</div>
+                <div class="theme-preview-item">Card Temă 2</div>
+                <div class="theme-preview-item">Card Temă 3</div>
+                <div class="theme-preview-item">Card Temă 4</div>
+                <div class="theme-preview-item">Card Temă 5</div>
+                <div class="theme-preview-item">Card Temă 6</div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="platform-footer">
+        <div class="platform-footer-container">
+            <p>© <span id="current-year"></span> CardSpark. Toate drepturile rezervate.</p>
+            <nav class="platform-footer-nav">
+                <a href="#" class="platform-nav-link">Despre</a>
+                <a href="#" class="platform-nav-link">Contact</a>
+                <a href="#" class="platform-nav-link">Termeni</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
