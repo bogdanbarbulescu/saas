@@ -3,7 +3,7 @@
 body { scroll-behavior: smooth; }
 img, picture, video, canvas, svg { display: block; max-width: 100%; }
 input, button, textarea, select { font: inherit; }
-button { cursor: pointer; }
+button { cursor: pointer; background: none; border: none; } /* Resetare mai bună pentru butoane */
 
 /* --- Variabile Meta-Temă și Temă Default Card --- */
 :root {
@@ -70,7 +70,7 @@ body {
 .platform-header {
     background-color: var(--meta-card-bg);
     border-bottom: 1px solid var(--meta-border);
-    padding: 0.8rem 0; /* Ajustat padding */
+    padding: 0.8rem 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     position: sticky;
     top: 0;
@@ -94,7 +94,12 @@ body.dark-mode .platform-header {
     font-size: 1.5rem;
     text-decoration: none;
 }
-.platform-nav { display: flex; align-items: center; gap: 0.5rem; }
+/* Navigația principală este ascunsă inițial pe mobil și afișată pe ecrane mai mari */
+.platform-nav {
+    display: none; /* Ascunsă by default, afișată prin media query */
+    align-items: center;
+    gap: 0.5rem;
+}
 .platform-nav-link {
     color: var(--meta-text-secondary);
     text-decoration: none;
@@ -120,10 +125,10 @@ body.dark-mode .platform-nav-link.active {
     padding: 0.5rem 0.8rem;
     border: 1px solid var(--meta-border);
     border-radius: 6px;
-    background-color: var(--meta-page-bg); /* Să se integreze cu fundalul paginii */
+    background-color: var(--meta-page-bg);
     color: var(--meta-text-primary);
     min-width: 200px;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, width 0.3s ease;
 }
 .platform-search-input:focus {
     outline: none;
@@ -131,10 +136,8 @@ body.dark-mode .platform-nav-link.active {
     box-shadow: 0 0 0 2px var(--meta-focus-ring);
 }
 .platform-button-icon {
-    background: none;
-    border: none;
     color: var(--meta-text-secondary);
-    font-size: 1.3rem; /* Mărit pentru vizibilitate */
+    font-size: 1.3rem;
     padding: 0.4rem;
     border-radius: 50%;
     width: 40px;
@@ -152,6 +155,38 @@ body.dark-mode .platform-nav-link.active {
     outline: 2px solid var(--meta-accent-primary);
     box-shadow: 0 0 0 2px var(--meta-focus-ring);
 }
+/* Hamburger Menu Button - afișat pe mobil */
+.platform-hamburger-menu { display: inline-flex; } /* Afișat by default, ascuns pe desktop prin media query */
+
+/* Meniu Mobil */
+.platform-mobile-nav {
+    display: none; /* Controlat de JS și clasa .open */
+    background-color: var(--meta-card-bg);
+    border-bottom: 1px solid var(--meta-border);
+    position: absolute; /* Schimbat din fixed pentru a fi sub header */
+    top: 100%; /* Se aliniază sub header-ul părinte (.platform-header) */
+    left: 0;
+    right: 0;
+    z-index: 99; /* Sub header, dar peste conținutul paginii */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.platform-mobile-nav.open { display: block; }
+.platform-mobile-nav nav {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0; /* Spațiere verticală pentru linkuri */
+}
+.platform-mobile-nav .platform-nav-link {
+    padding: 0.8rem 1.5rem; /* Mărit padding pentru atingere ușoară */
+    display: block;
+    text-align: left; /* Aliniere la stânga pentru consistență */
+    border-bottom: 1px solid var(--meta-border);
+}
+.platform-mobile-nav .platform-nav-link:last-child {
+    border-bottom: none;
+}
+
 
 .platform-main-layout {
     display: flex;
@@ -159,18 +194,18 @@ body.dark-mode .platform-nav-link.active {
     max-width: 1400px;
     width: 100%;
     margin: 0 auto;
-    padding: 1.5rem; /* Adăugat padding general */
+    padding: 1.5rem;
 }
 
 .filter-sidebar {
     background-color: var(--meta-card-bg);
     padding: 1.5rem;
     border-right: 1px solid var(--meta-border);
-    width: 280px; /* Lățime fixă pentru sidebar */
+    width: 280px;
     flex-shrink: 0;
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-    align-self: flex-start; /* Să nu se întindă pe toată înălțimea */
+    align-self: flex-start;
     margin-right: 1.5rem;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -178,51 +213,35 @@ body.dark-mode .filter-sidebar {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .filter-sidebar-title {
-    color: var(--meta-text-primary);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-    font-weight: 600;
+    color: var(--meta-text-primary); margin-top: 0; margin-bottom: 1.5rem;
+    font-size: 1.2rem; font-weight: 600;
 }
 .filter-group { margin-bottom: 1.5rem; }
 .filter-label {
-    display: block;
-    color: var(--meta-text-secondary);
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+    display: block; color: var(--meta-text-secondary); font-size: 0.9rem;
+    font-weight: 500; margin-bottom: 0.5rem;
 }
 .platform-select {
-    width: 100%;
-    padding: 0.6rem 0.8rem;
-    border: 1px solid var(--meta-border);
-    border-radius: 6px;
-    background-color: var(--meta-page-bg);
-    color: var(--meta-text-primary);
-    appearance: none; /* Custom arrow to be added if desired */
+    width: 100%; padding: 0.6rem 0.8rem; border: 1px solid var(--meta-border);
+    border-radius: 6px; background-color: var(--meta-page-bg);
+    color: var(--meta-text-primary); appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    background-size: 0.9em;
+    background-repeat: no-repeat; background-position: right 0.7rem center; background-size: 0.9em;
     transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 body.dark-mode .platform-select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23adb5bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
 }
 .platform-select:focus {
-    outline: none;
-    border-color: var(--meta-accent-primary);
+    outline: none; border-color: var(--meta-accent-primary);
     box-shadow: 0 0 0 2px var(--meta-focus-ring);
 }
 .platform-radio-group label {
-    display: block;
-    margin-bottom: 0.3rem;
-    color: var(--meta-text-primary);
+    display: block; margin-bottom: 0.3rem; color: var(--meta-text-primary);
     font-size: 0.95rem;
 }
 .platform-radio-group input[type="radio"] {
-    margin-right: 0.5rem;
-    accent-color: var(--meta-accent-primary);
+    margin-right: 0.5rem; accent-color: var(--meta-accent-primary);
 }
 .color-palette-filter { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .color-swatch {
@@ -231,48 +250,30 @@ body.dark-mode .platform-select {
 }
 .color-swatch:hover { transform: scale(1.1); }
 .color-swatch:focus-visible, .color-swatch.selected {
-    border-color: var(--meta-accent-primary);
-    outline: none;
+    border-color: var(--meta-accent-primary); outline: none;
     box-shadow: 0 0 0 2px var(--meta-focus-ring);
 }
 .sidebar-divider {
-    border: none;
-    border-top: 1px solid var(--meta-border);
-    margin: 1.5rem 0;
+    border: none; border-top: 1px solid var(--meta-border); margin: 1.5rem 0;
 }
 .theme-selector-container { margin-top: 1rem; }
 
 
-.themes-grid-container {
-    flex-grow: 1;
-    padding: 0.5rem; /* Spațiu pentru umbrele cardurilor */
-}
+.themes-grid-container { flex-grow: 1; padding: 0.5rem; }
 .themes-grid-title {
-    color: var(--meta-text-primary);
-    font-size: 1.6rem;
-    font-weight: 600;
+    color: var(--meta-text-primary); font-size: 1.6rem; font-weight: 600;
     margin-bottom: 1.5rem;
 }
 .card-preview-area {
     background-color: var(--page-bg); /* Folosește fundalul temei cardului */
-    padding: 2rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 600px; /* Suficient spațiu pentru card */
-    border: 1px solid var(--card-border-glow); /* bordura temei cardului */
+    padding: 2rem; border-radius: 8px; margin-bottom: 2rem;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 550px;
+    border: 1px solid var(--card-border-glow);
     transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 .card-preview-instruction {
-    color: var(--meta-text-secondary); /* textul platformei */
-    margin-bottom: 1rem;
-    text-align: center;
-}
-.exercise-card-wrapper {
-    /* Va conține cardul cu tema sa */
+    color: var(--meta-text-secondary); margin-bottom: 1rem; text-align: center;
 }
 .themes-actual-grid {
     display: grid;
@@ -280,138 +281,119 @@ body.dark-mode .platform-select {
     gap: 1.5rem;
 }
 .theme-preview-item {
-    background-color: var(--meta-card-bg);
-    padding: 1rem;
-    border: 1px solid var(--meta-border);
-    border-radius: 8px;
-    min-height: 150px; /* Placeholder */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--meta-text-secondary);
+    background-color: var(--meta-card-bg); padding: 1rem; border: 1px solid var(--meta-border);
+    border-radius: 8px; min-height: 150px; display: flex; align-items: center;
+    justify-content: center; color: var(--meta-text-secondary);
     box-shadow: 0 1px 2px rgba(0,0,0,0.03);
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-
 .platform-footer {
-    background-color: var(--meta-card-bg);
-    border-top: 1px solid var(--meta-border);
-    padding: 1.5rem 0;
-    margin-top: auto; /* Împinge footer-ul în jos */
+    background-color: var(--meta-card-bg); border-top: 1px solid var(--meta-border);
+    padding: 1.5rem 0; margin-top: auto;
     box-shadow: 0 -1px 3px rgba(0,0,0,0.03);
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
-body.dark-mode .platform-footer {
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-}
+body.dark-mode .platform-footer { box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
 .platform-footer-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--meta-text-secondary);
-    font-size: 0.9rem;
+    max-width: 1400px; margin: 0 auto; padding: 0 1.5rem;
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: space-between;
+    color: var(--meta-text-secondary); font-size: 0.9rem;
 }
 .platform-footer-nav { display: flex; gap: 0.5rem; }
 
+/* Butoane standard platforma */
+.platform-button-primary {
+    background-color: var(--meta-accent-primary);
+    color: var(--meta-text-on-accent);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+.platform-button-primary:hover {
+    background-color: var(--meta-accent-secondary);
+}
+.platform-button-primary:focus-visible {
+    outline: 2px solid var(--meta-accent-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px var(--meta-focus-ring);
+}
 
-/* --- Dropdown Menu Styles (pentru selectare temă card) --- */
-/* Acestea NU folosesc --meta-* pentru fundal/text, ci variabilele temei cardului selectat */
+.platform-button-secondary {
+    background-color: transparent;
+    color: var(--meta-accent-primary);
+    border: 1px solid var(--meta-accent-primary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.platform-button-secondary:hover {
+    background-color: color-mix(in srgb, var(--meta-accent-primary) 10%, transparent);
+    border-color: var(--meta-accent-secondary);
+    color: var(--meta-accent-secondary);
+}
+.platform-button-secondary:focus-visible {
+    outline: 2px solid var(--meta-accent-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px var(--meta-focus-ring);
+}
+
+
+/* --- Dropdown Menu Styles (pentru selectare temă card) - Rămân la fel --- */
 .theme-selector {
-    position: relative;
-    margin-bottom: 1rem; /* Ajustat pentru sidebar */
-    z-index: 10;
+    position: relative; margin-bottom: 1rem; z-index: 10;
 }
 .theme-dropdown-button {
-    /* Fundalul și textul sunt determinate de tema cardului prin JS/CSS */
-    /* Stilurile de bază pentru formă și aliniere */
-    background-color: var(--card-bg); /* Default la tema cardului */
-    color: var(--text-primary);     /* Default la tema cardului */
-    border: 1px solid var(--card-content-border); /* Default la tema cardului */
-    padding: 0.7rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    background-color: var(--card-bg); color: var(--text-primary);
+    border: 1px solid var(--card-content-border);
+    padding: 0.7rem 1rem; border-radius: 6px; cursor: pointer;
+    font-size: 0.95rem; font-weight: 500; display: flex;
+    align-items: center; justify-content: space-between; width: 100%;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
-.theme-dropdown-button:hover,
-.theme-dropdown-button:focus {
-    background-color: var(--accent-primary); /* Din tema cardului */
-    color: var(--text-on-accent);      /* Din tema cardului */
-    border-color: var(--accent-primary-darker); /* Din tema cardului */
-    outline: none;
+.theme-dropdown-button:hover, .theme-dropdown-button:focus {
+    background-color: var(--accent-primary); color: var(--text-on-accent);
+    border-color: var(--accent-primary-darker); outline: none;
 }
 .theme-dropdown-button .fas { margin-left: 0.7rem; transition: transform 0.2s ease-in-out; }
 .theme-dropdown-button.menu-open .fas { transform: rotate(180deg); }
 
 .theme-menu {
-    list-style: none;
-    padding: 0;
-    margin: 5px 0 0 0;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--card-bg); /* Din tema cardului */
-    border: 1px solid var(--card-content-border); /* Din tema cardului */
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    opacity: 0;
-    visibility: hidden;
+    list-style: none; padding: 0; margin: 5px 0 0 0; position: absolute;
+    top: 100%; left: 0; width: 100%; background-color: var(--card-bg);
+    border: 1px solid var(--card-content-border); border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); opacity: 0; visibility: hidden;
     transform: translateY(10px);
     transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
-    max-height: 250px;
-    overflow-y: auto;
-    z-index: 11; /* Peste conținutul din sidebar */
+    max-height: 250px; overflow-y: auto; z-index: 11;
 }
 .theme-menu.menu-open { opacity: 1; visibility: visible; transform: translateY(0); }
 .theme-menu li {
-    padding: 0.7rem 1rem;
-    color: var(--text-secondary); /* Din tema cardului */
-    cursor: pointer;
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--card-content-border); /* Din tema cardului */
+    padding: 0.7rem 1rem; color: var(--text-secondary); cursor: pointer;
+    font-size: 0.9rem; border-bottom: 1px solid var(--card-content-border);
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 .theme-menu li:last-child { border-bottom: none; }
-.theme-menu li:hover,
-.theme-menu li:focus {
-    background-color: var(--accent-primary); /* Din tema cardului */
-    color: var(--text-on-accent);      /* Din tema cardului */
-    outline: none;
+.theme-menu li:hover, .theme-menu li:focus {
+    background-color: var(--accent-primary); color: var(--text-on-accent); outline: none;
 }
 .theme-menu li.active-theme {
-    color: var(--accent-primary); /* Din tema cardului */
-    font-weight: bold;
-    background-color: color-mix(in srgb, var(--accent-primary) 10%, var(--card-bg)); /* Din tema cardului */
+    color: var(--accent-primary); font-weight: bold;
+    background-color: color-mix(in srgb, var(--accent-primary) 10%, var(--card-bg));
 }
-.theme-menu li.active-theme:hover,
-.theme-menu li.active-theme:focus {
-    color: var(--text-on-accent); /* Din tema cardului */
-    background-color: var(--accent-primary); /* Din tema cardului */
+.theme-menu li.active-theme:hover, .theme-menu li.active-theme:focus {
+    color: var(--text-on-accent); background-color: var(--accent-primary);
 }
 
-/* --- Stiluri Card Exercițiu (Folosesc Variabilele --card-*, --text-*, --accent-* etc.) --- */
-/* Acestea sunt dinamice, bazate pe tema selectată prin JS */
+/* --- Stiluri Card Exercițiu - Rămân la fel --- */
 .exercise-card {
-    background-color: var(--card-bg);
-    border-radius: var(--card-border-radius);
-    padding: 25px;
-    width: 350px;
-    max-width: 100%;
+    background-color: var(--card-bg); border-radius: var(--card-border-radius);
+    padding: 25px; width: 350px; max-width: 100%;
     box-shadow: var(--card-box-shadow, 0 8px 25px rgba(0, 0, 0, 0.3)), 0 0 0 1px var(--card-border-glow);
-    color: var(--text-primary);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    color: var(--text-primary); display: flex; flex-direction: column; gap: 20px;
     transition: background-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease, border-radius 0.4s ease;
 }
 .card-header { display: flex; justify-content: space-between; align-items: center; }
@@ -425,7 +407,6 @@ body.dark-mode .platform-footer {
     font-size: 24px; color: var(--accent-primary);
     transition: color 0.4s ease, text-shadow 0.4s ease;
 }
-/* ... restul stilurilor pentru card ca înainte, asigurându-se că folosesc variabilele temei cardului ... */
 .card-tags { display: flex; gap: 8px; }
 .card-tag {
     padding: 6px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; text-transform: uppercase;
@@ -469,40 +450,33 @@ body.dark-mode .platform-footer {
 }
 
 /* Efecte de glow specifice pentru temele de card */
-body[class*="theme-demon"] .card-icon-wrapper .fas,
-body[class*="theme-cyberpunk"] .card-icon-wrapper .fas,
-/* ... alte teme cu glow */
+body[class*="theme-demon"] .exercise-card .card-icon-wrapper .fas,
+body[class*="theme-cyberpunk"] .exercise-card .card-icon-wrapper .fas,
 body[class*="theme-apocalypse-purple"] .exercise-card .card-icon-wrapper .fas {
     text-shadow: 0 0 10px var(--accent-primary), 0 0 15px var(--accent-primary);
 }
-body[class*="theme-demon"] .tag-difficulty,
-body[class*="theme-cyberpunk"] .tag-difficulty,
-/* ... alte teme cu glow */
+body[class*="theme-demon"] .exercise-card .tag-difficulty,
+body[class*="theme-cyberpunk"] .exercise-card .tag-difficulty,
 body[class*="theme-apocalypse-purple"] .exercise-card .tag-difficulty {
     box-shadow: 0 0 8px var(--accent-primary);
 }
-body[class*="theme-demon"] .progress-bar-fill,
-body[class*="theme-cyberpunk"] .progress-bar-fill,
-/* ... alte teme cu glow */
+body[class*="theme-demon"] .exercise-card .progress-bar-fill,
+body[class*="theme-cyberpunk"] .exercise-card .progress-bar-fill,
 body[class*="theme-apocalypse-purple"] .exercise-card .progress-bar-fill {
      box-shadow: 0 0 8px var(--accent-primary);
 }
-body[class*="theme-demon"] .stat-item .fas,
-body[class*="theme-cyberpunk"] .stat-item .fas,
-/* ... alte teme cu glow */
+body[class*="theme-demon"] .exercise-card .stat-item .fas,
+body[class*="theme-cyberpunk"] .exercise-card .stat-item .fas,
 body[class*="theme-apocalypse-purple"] .exercise-card .stat-item .fas {
     text-shadow: 0 0 6px var(--accent-primary);
 }
 
 /* Stiluri Neomorfice specifice pentru temele de card */
 body[class*="theme-neomorphic"] .exercise-card .card-tag.tag-theory {
-    background-color: var(--tag-secondary-bg);
-    color: var(--tag-secondary-text);
+    background-color: var(--tag-secondary-bg); color: var(--tag-secondary-text);
 }
 body[class*="theme-neomorphic"] .exercise-card .card-tag.tag-difficulty {
-    background-color: var(--accent-primary);
-    color: var(--text-on-accent);
-    box-shadow: none;
+    background-color: var(--accent-primary); color: var(--text-on-accent); box-shadow: none;
 }
 body[class*="theme-neomorphic"] .exercise-card .progress-bar-fill {
     box-shadow: var(--neo-shadow-main, none);
@@ -513,10 +487,102 @@ body[class*="theme-neomorphic"] .exercise-card .progress-bar-fill {
     body[class*="theme-frosted-glass"] .exercise-card,
     body[class*="theme-glassmorphism-clear"] .exercise-card,
     body[class*="theme-crystal-flower"] .exercise-card {
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
      body[class*="theme-frosted-glass"] { --card-bg: rgba(255, 255, 255, 0.65); }
      body[class*="theme-glassmorphism-clear"] { --card-bg: rgba(255, 255, 255, 0.1); }
      body[class*="theme-crystal-flower"] { --card-bg: rgba(200, 210, 230, 0.05); }
+}
+
+
+/* --- Media Queries pentru Responsivitate --- */
+
+/* Tablete și ecrane medii (ex: iPads, ecrane mici de laptop) */
+@media (min-width: 769px) {
+    .platform-nav { display: flex; } /* Afișează navigația principală */
+    .platform-hamburger-menu { display: none; } /* Ascunde hamburgerul */
+    .platform-mobile-nav { display: none !important; } /* Asigură că meniul mobil e ascuns */
+}
+
+@media (max-width: 1024px) {
+    .platform-header-container, .platform-main-layout, .platform-footer-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .platform-search-input { min-width: 150px; font-size: 0.9rem; }
+    .filter-sidebar {
+        width: 240px;
+        margin-right: 1rem;
+        padding: 1.2rem;
+    }
+    .themes-grid-title { font-size: 1.4rem; }
+    .card-preview-area { padding: 1.5rem; min-height: 500px; }
+    .exercise-card { width: 320px; padding: 20px; }
+    .card-title { font-size: 20px; }
+}
+
+/* Dispozitive mobile mari și tablete portret */
+@media (max-width: 768px) {
+    .platform-nav { display: none; } /* Ascundem navigația principală desktop */
+    .platform-hamburger-menu { display: inline-flex; } /* Afișăm hamburgerul */
+    .platform-header-actions .platform-search-input { display: none; }
+    .platform-header-actions .platform-user-menu { display: none; }
+    .logo { font-size: 1.3rem; margin-right: auto; /* Ocupă spațiul rămas */ }
+    .platform-header-actions {
+        /* Asigurăm că butoanele de acțiuni (meta-theme, user) rămân la dreapta hamburgerului */
+        margin-left: auto; /* Împinge acțiunile la dreapta */
+    }
+
+
+    .platform-main-layout {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    .filter-sidebar {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+        border-right: none;
+        border-bottom: 1px solid var(--meta-border);
+    }
+    .theme-selector-container {
+        max-width: 350px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .themes-grid-title { text-align: center; }
+    .card-preview-area { min-height: auto; }
+    .exercise-card { width: 100%; }
+    .themes-actual-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    .platform-footer-container {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+    .platform-footer-nav { justify-content: center; }
+}
+
+/* Dispozitive mobile mici */
+@media (max-width: 480px) {
+    .platform-header-container, .platform-main-layout, .platform-footer-container {
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+    }
+    .logo { font-size: 1.2rem; }
+    .filter-sidebar { padding: 1rem; }
+    .filter-sidebar-title { font-size: 1.1rem; }
+    .themes-grid-title { font-size: 1.3rem; }
+    .card-preview-area { padding: 1rem; }
+    .exercise-card { padding: 15px; gap: 15px; }
+    .card-title { font-size: 18px; }
+    .card-description { font-size: 13px; }
+    .progress-info, .stat-item { font-size: 12px; }
+    .card-icon-wrapper .fas { font-size: 20px; }
+    .card-tag { font-size: 11px; padding: 5px 10px; }
+    .themes-actual-grid {
+        grid-template-columns: 1fr;
+    }
 }
