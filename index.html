@@ -15,7 +15,10 @@
     <header class="platform-header">
         <div class="platform-header-container">
             <a href="/" class="logo">CardSpark</a>
-            <nav class="platform-nav">
+            <button class="platform-button-icon platform-hamburger-menu" aria-label="Deschide meniul" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="platform-nav" id="main-nav">
                 <a href="#" class="platform-nav-link active">Bibliotecă Teme</a>
                 <a href="#" class="platform-nav-link">Temele Mele</a>
                 <a href="#" class="platform-nav-link">Creează Temă</a>
@@ -32,6 +35,14 @@
                     <!-- Dropdown meniu utilizator aici (opțional) -->
                 </div>
             </div>
+        </div>
+        <!-- Meniul mobil va fi adăugat/controlat de JS sau poate fi pus aici direct și ascuns/afișat cu CSS -->
+        <div class="platform-mobile-nav" id="mobile-nav-container">
+            <nav>
+                <a href="#" class="platform-nav-link active">Bibliotecă Teme</a>
+                <a href="#" class="platform-nav-link">Temele Mele</a>
+                <a href="#" class="platform-nav-link">Creează Temă</a>
+            </nav>
         </div>
     </header>
 
